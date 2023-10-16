@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Candidatos</title>
+</head>
+
+<body>
+    <div>
+        <input type="text" id="emailGlobal" name="emailGlobal" placeholder="Digite o email do usuário" value="" required><br><br>
+        <% for (let i = 0; i < candidatos.length; i++) { %>
+            <form id="form<%= i %>" action="/api/votar/" method="POST">
+                <!-- Campos ocultos para enviar dados do candidato -->
+                <input type="hidden" name="idcandidato" value="<%= candidatos[i].id_candidato %>">
+                <input type="hidden" name="emailLocal" value="">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <%= candidatos[i].nome_candidato %>
+                        </h5>
+                        <p class="card-text">
+                            <%= candidatos[i].id_candidato %>
+                        </p>
+                        <p class="card-text">
+                            <%= candidatos[i].votos_candidato %>
+                        </p>
+                        <button type="button" onclick="copyEmail(<%= i %>)">Votar</button>
+                    </div>
+                </div>
+                <hr />
+            </form>
+            <hr/>
+        <% } %>
+        <script>
+            function copyEmail(index) {
+                const emailGlobal = document.getElementById('emailGlobal').value;
+                const emailLocal = document.querySelector(`#form${index} [name="emailLocal"]`);
+                emailLocal.value = emailGlobal;
+                document.getElementById(`form${index}`).submit();
+            }
+        </script>
+    </div>
+</body>
+
+</html>
